@@ -12,14 +12,21 @@ parsed = json.loads(json_records)
 
 # Change the key names
 for record in parsed:
-    record['usa'] = record.pop('Monthly Search Vol (USA)')
-    record['name'] = record.pop('Suggested Programmatic Keyword')
+    record['keyword'] = record.pop('Keyword')
+    record['slug'] = record.pop('URL')
+    # replace 'https://societyone.com.au/' string from slug column
+    record['slug'] = record['slug'].replace('https://societyone.com.au/', '')
+    record['h1'] = record.pop('Heading 1')
+    record['title'] = record.pop('Title Tag')
+    record['desc'] = record.pop('Meta Desc')
+    # remove the 'Len' column
+    record.pop('Len')
 
 # Convert back to JSON
 json_records = json.dumps(parsed)
 
 # Write to file
-with open('data.json', 'w') as f:
+with open('ProgrammaticContent.json', 'w') as f:
     f.write(json_records)
 
 # Print finished message
